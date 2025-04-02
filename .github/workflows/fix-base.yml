@@ -1,0 +1,18 @@
+name: Fix Base URL
+on:
+  push:
+    branches: [ main ]
+jobs:
+  fix-base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Replace base href
+        run: sed -i 's|<base href="/online-tools/">|<base href="/">|' index.html
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add index.html
+          git commit -m "Fix base href for custom domain" || echo "No changes to commit"
+          git push
